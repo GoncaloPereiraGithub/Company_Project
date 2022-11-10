@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Management System</title>
+
+    <!-- Bootstrap imported -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <h1>Employee Management System</h1>
+        <hr>
+        <h2>Save Employee</h2>
+
+        <form action="#" th:action="@{/saveEmployee}" th:object="${employee}" method="POST">
+            <!-- Text insert will be first name-->
+            <input type="text" th:field="*{firstName}"
+                   placeholder="First Name" class="form-control mb-4 col-4">
+            <!-- Text insert will be last name-->
+            <input type="text" th:field="*{lastName}"
+                   placeholder="Last Name" class="form-control mb-4 col-4">
+            <!-- Text insert will be email-->
+            <input type="text" th:field="*{email}"
+                   placeholder="Email" class="form-control mb-4 col-4">
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-info col-2"> Save Employee</button>
+        </form>
+    </div>
+</body>
+</html>
