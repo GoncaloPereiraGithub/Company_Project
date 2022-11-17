@@ -36,6 +36,32 @@
                 </tr>
             </tbody>
         </table>
+        <!-- Pagination -->
+        <div th:if = "${totalPages > 1}">
+            <div class="row col-sm-10">
+                <div class="col-sm-2"> <!-- Display total rows -->
+                    Total Rows: [[${totalItems}]]
+                </div>
+                <div class="col-sm-1"> <!-- Previous Page-->
+                    <a th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage - 1}}"> Previous</a>
+                    <span th:unless="${currentPage > 1}">Previous</span>  <!-- Text, not hyperlink-->
+                </div>
+                <div class="col-sm-1"> <!-- Display Pages in sequence-->
+                    <span th:each="i:${#numbers.sequence(1, totalPages)}">
+                        <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
+                        <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+                    </span>
+                </div>
+                <div class="col-sm-1"> <!-- Next Page-->
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}}"> Next</a>
+                    <span th:unless="${currentPage < totalPages}">Next</span>  <!-- Text, not hyperlink-->
+                </div>
+                <div class="col-sm-1"> <!-- Last Page-->
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}}"> Last</a>
+                    <span th:unless="${currentPage < totalPages}">Last</span> <!-- Text, not hyperlink-->
+                </div>
+            </div>
+            </div>
     </div>
 </body>
 </html>
