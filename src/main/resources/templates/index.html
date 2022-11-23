@@ -11,57 +11,61 @@
           crossorigin="anonymous">
 </head>
 <body>
-    <div class="container my-2">
-        <h1>Employees List</h1>
-        <a th:href="@{/showNewEmployeeForm}" class="btn btn-primary btn-sm mb-3"> Add Employee</a>
-        <table border="1" class="table tale table-striped table-responsive-md">
-            <thead>
-                <tr>
-                    <th>Employee First Name</th>
-                    <th>Employee Last Name</th>
-                    <th>Employee Email</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="employee : ${listEmployees}"> <!-- Iterating employees with listEmployees(Controller Class) -->
-                    <td th:text="${employee.firstName}"></td>
-                    <td th:text="${employee.lastName}"></td>
-                    <td th:text="${employee.email}"></td>
-                    <!-- Update/Delete Button  -->
-                    <!-- Binding employee id to thymeleaf, for employee actions -->
-                    <td> <a th:href="@{/showFormForUpdate/{id}(id=${employee.id})}" class="btn btn-primary">Update</a>
-                         <a th:href="@{/deleteEmployee/{id}(id=${employee.id})}" class="btn btn-danger">Delete</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <!-- Pagination -->
-        <div th:if = "${totalPages > 1}">
-            <div class="row col-sm-10">
-                <div class="col-sm-2"> <!-- Display total rows -->
-                    Total Rows: [[${totalItems}]]
-                </div>
-                <div class="col-sm-1"> <!-- Previous Page-->
-                    <a th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage - 1}}"> Previous</a>
-                    <span th:unless="${currentPage > 1}">Previous</span>  <!-- Text, not hyperlink-->
-                </div>
-                <div class="col-sm-1"> <!-- Display Pages in sequence-->
-                    <span th:each="i:${#numbers.sequence(1, totalPages)}">
-                        <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
+<div class="container my-2">
+    <h1>Employees List</h1>
+    <a th:href="@{/showNewEmployeeForm}" class="btn btn-primary btn-sm mb-3"> Add Employee</a>
+    <table border="1" class="table tale table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <!-- Hidden hyperlinks, for toggle action, when clicking, sorting in asc/desc direction-->
+            <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=firstName&sortDir=' + ${reverseSortDir}}">
+                Employee First Name</a></th>
+            <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=lastName&sortDir=' + ${reverseSortDir}}">
+                Employee Last Name</a></th>
+            <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=email&sortDir=' + ${reverseSortDir}}">
+                Employee Email</a></th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee : ${listEmployees}"> <!-- Iterating employees with listEmployees(Controller Class) -->
+            <td th:text="${employee.firstName}"></td>
+            <td th:text="${employee.lastName}"></td>
+            <td th:text="${employee.email}"></td>
+            <!-- Update/Delete Button  -->
+            <!-- Binding employee id to thymeleaf, for employee actions -->
+            <td><a th:href="@{/showFormForUpdate/{id}(id=${employee.id})}" class="btn btn-primary">Update</a>
+                <a th:href="@{/deleteEmployee/{id}(id=${employee.id})}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- Pagination -->
+    <div th:if="${totalPages > 1}">
+        <div class="row col-sm-10">
+            <div class="col-sm-2"> <!-- Display total rows -->
+                Total Rows: [[${totalItems}]]
+            </div>
+            <div class="col-sm-1"> <!-- Previous Page-->
+                <a th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"> Previous</a>
+                <span th:unless="${currentPage > 1}">Previous</span>  <!-- Text, not hyperlink-->
+            </div>
+            <div class="col-sm-1"> <!-- Display Pages in sequence-->
+                <span th:each="i:${#numbers.sequence(1, totalPages)}">
+                        <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
                         <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
                     </span>
-                </div>
-                <div class="col-sm-1"> <!-- Next Page-->
-                    <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}}"> Next</a>
-                    <span th:unless="${currentPage < totalPages}">Next</span>  <!-- Text, not hyperlink-->
-                </div>
-                <div class="col-sm-1"> <!-- Last Page-->
-                    <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}}"> Last</a>
-                    <span th:unless="${currentPage < totalPages}">Last</span> <!-- Text, not hyperlink-->
-                </div>
             </div>
+            <div class="col-sm-1"> <!-- Next Page-->
+                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"> Next</a>
+                <span th:unless="${currentPage < totalPages}">Next</span>  <!-- Text, not hyperlink-->
             </div>
+            <div class="col-sm-1"> <!-- Last Page-->
+                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"> Last</a>
+                <span th:unless="${currentPage < totalPages}">Last</span> <!-- Text, not hyperlink-->
+            </div>
+        </div>
     </div>
+</div>
 </body>
 </html>
