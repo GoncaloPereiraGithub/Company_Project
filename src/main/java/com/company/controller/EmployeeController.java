@@ -35,7 +35,7 @@ public class EmployeeController {
         return "new_employee";
     }
 
-    // Take Employee from FORM
+    // Take Employee from FORM(UI)
     @PostMapping("/saveEmployee")
     public String saveEmployee(@ModelAttribute("employee") Employee employee) {
         // Save employee to Database

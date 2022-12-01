@@ -11,6 +11,11 @@ public class Role {
     private Long id;
     private String name;
 
+    // Constructor
+    public Role(String name) {
+        this.name = name;
+    }
+
     // Getters & Setters
     public Long getId() {
         return id;

@@ -18,10 +18,13 @@ public class User {
     private String email;
     private String password;
 
+    // Join user_id & role_id in a Table
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL) // EAGER -> load every role immediately, ex.(LAZY -> loads when needed/called)
     @JoinTable(name = "users_roles",
+            // Assign the column of third table related to entity itself
             joinColumns = @JoinColumn(
                     name = "user_id", referencedColumnName = "id"),
+            //  Assign the column of third table related to associated entity
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles; // User roles

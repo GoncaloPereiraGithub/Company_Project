@@ -48,7 +48,7 @@
             </div>
             <div class="col-sm-1"> <!-- Previous Page-->
                 <a th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"> Previous</a>
-                <span th:unless="${currentPage > 1}">Previous</span>  <!-- Text, not hyperlink-->
+                <span th:unless="${currentPage > 1}">Previous</span> &nbsp;  <!-- Text, not hyperlink-->
             </div>
             <div class="col-sm-1"> <!-- Display Pages in sequence-->
                 <span th:each="i:${#numbers.sequence(1, totalPages)}">
