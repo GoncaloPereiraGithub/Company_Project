@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Management System - Login</title>
+
+    <!-- Bootstrap imported -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+
+<body class="vh-100">
+<div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100"> <!-- Justify, aligning horizontally -->
+        <div class="col-md-8 col-lg-5 col-xl-4"> <!-- col-md-offset-3 -->
+
+            <!-- Login Form -->
+            <h1 class="text-center">User Login</h1>
+            <!-- On submitting form, proceed to login-->
+            <form th:action="@{/login}" method="post">
+
+                <!-- Error message on invalid user/pw -->
+                <div th:if="${param.error}">
+                    <div class="alert alert-danger">Invalid username or password.</div>
+                </div>
+
+
+                <!-- Logout message -->
+                <div th:if="${param.logout}">
+                    <div class="alert alert-info">You have been logged out.</div>
+                </div>
+                <!-- Username -->
+                <div class="form-group">
+                    <label for="username"> Username:</label>
+                    <input type="text" class="form-control" id="username" name="username"
+                           placeholder="Enter Email Id" autofocus="autofocus">
+                </div>
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password"> Password:</label>
+                    <input type="password" class="form-control" id="password" name="password"
+                           placeholder="Enter password" autofocus="autofocus">
+                </div>
+                <!-- Submit Button -->
+                <div class="form-group ">
+                        <input type="submit" name="login-submit" id="login-submit"
+                               class="form-control btn btn-primary" value="Log In">
+                </div>
+                <!-- New User Registration Link -->
+                <div class="form-group">
+                <span>New user? <a href="/" th:href="@{/registration}">Register here</a>
+                </span>
+                </div>
+            </form>
+
+
+
+        </div>
+        <!-- About(Right side page)-->
+        <!--        <div class="col-md-6">-->
+        <!--            <h3 class="text-center">About</h3>-->
+        <!--            <p>Employee Management System Web App built to consult employees information, whether-->
+        <!--            you choose to add, update or delete a worker details.</p>-->
+        <!--        </div>-->
+    </div>
+</div>
+
+
+</body>
+</html>

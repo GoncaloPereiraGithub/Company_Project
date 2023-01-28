@@ -4,6 +4,7 @@ import com.company.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
@@ -47,10 +48,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // Providing access to some URLs
         http
-                // Authorized Requests
+                // Authorized Requests (Check if png, jpg are needed -> self added trying to fix logo prob on login page)
                 .authorizeRequests().antMatchers(
                         "/registration**",
-                        "/js/**", "/css/**", "/img/**").permitAll()
+                        "/js/**", "/css/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()

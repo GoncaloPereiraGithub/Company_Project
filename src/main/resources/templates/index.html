@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="UTF-8">
     <title>Employee Management System</title>
@@ -10,13 +11,52 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
 </head>
+
 <body>
+<!-- NavBar (Completed) -->
+<nav class="navbar navbar-expand-md navbar-light">
+    <div class="container">
+        <a class="navbar-brand" href="#" th:href="@{/}">
+            <img th:src="@{/logo.png}" alt="company-logo"
+                 class="d-inline-block align-top" width="30" height="30"/> Employee Management System</a>
+
+<!--        &lt;!&ndash;        DROPDOWN(Logged in as: User, dropdown to logout)&ndash;&gt;-->
+<!--        <div class="btn-group">-->
+<!--            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"-->
+<!--                    data-bs-auto-close="true" aria-expanded="false">-->
+<!--                Logged in as: <span sec:authentication="principal.username">User</span></button>-->
+<!--            <ul class="dropdown-menu">-->
+<!--                <li><a class="dropdown-item" sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a></li>-->
+<!--                <li><a class="dropdown-item" href="#">Test</a></li>-->
+<!--            </ul>-->
+<!--        </div>-->
+
+<!--&lt;!&ndash;        TEST&ndash;&gt;-->
+<!--        <li class="nav-item dropdown">-->
+<!--            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"-->
+<!--               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Test-->
+<!--            </a>-->
+<!--            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">-->
+<!--                <a class="dropdown-item" th:href="@{/logout}">Logout</a>-->
+<!--            </div>-->
+<!--        </li>-->
+
+
+                <a type="button" class="btn btn-danger" sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a>
+    </div>
+</nav>
+
+<!-- Page body -->
 <div class="container my-2">
     <h1>Employees List</h1>
+
+    <!-- "Welcome User", with dependency(thymeleaf-extras-springsecurity5) -->
+    <div class="alert alert-success">Welcome <span sec:authentication="principal.username">User</span></div>
+
     <a th:href="@{/showNewEmployeeForm}" class="btn btn-primary btn-sm mb-3"> Add Employee</a>
     <table border="1" class="table tale table-striped table-responsive-md">
         <thead>
-        <tr>
+        <tr> <!-- 1st Row (First Name, Last Name, Email, Actions)-->
             <!-- Hidden hyperlinks, for toggle action, when clicking, sorting in asc/desc direction-->
             <th><a th:href="@{'/page/' + ${currentPage} + '?sortField=firstName&sortDir=' + ${reverseSortDir}}">
                 Employee First Name</a></th>
@@ -27,7 +67,7 @@
             <th>Actions</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody> <!-- Each Table Row Content -->
         <tr th:each="employee : ${listEmployees}"> <!-- Iterating employees with listEmployees(Controller Class) -->
             <td th:text="${employee.firstName}"></td>
             <td th:text="${employee.lastName}"></td>
@@ -40,32 +80,31 @@
         </tr>
         </tbody>
     </table>
+
     <!-- Pagination -->
-    <div th:if="${totalPages > 1}">
-        <div class="row col-sm-10">
-            <div class="col-sm-2"> <!-- Display total rows -->
-                Total Rows: [[${totalItems}]]
-            </div>
-            <div class="col-sm-1"> <!-- Previous Page-->
-                <a th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"> Previous</a>
-                <span th:unless="${currentPage > 1}">Previous</span> &nbsp;  <!-- Text, not hyperlink-->
-            </div>
-            <div class="col-sm-1"> <!-- Display Pages in sequence-->
-                <span th:each="i:${#numbers.sequence(1, totalPages)}">
-                        <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
-                        <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-                    </span>
-            </div>
-            <div class="col-sm-1"> <!-- Next Page-->
-                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"> Next</a>
-                <span th:unless="${currentPage < totalPages}">Next</span>  <!-- Text, not hyperlink-->
-            </div>
-            <div class="col-sm-1"> <!-- Last Page-->
-                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}"> Last</a>
-                <span th:unless="${currentPage < totalPages}">Last</span> <!-- Text, not hyperlink-->
-            </div>
-        </div>
-    </div>
+    <nav aria-label="Page Navigation" class="display-inline">
+        <ul class="pagination justify-content-center">
+            <!-- Previous -->
+            <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+                <a class="page-link"
+                   th:href="@{'/page/' + ${currentPage - 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Previous
+                </a>
+            </li>
+            <!-- Show all pages -->
+            <li th:each="i : ${#numbers.sequence(1, totalPages)}"
+                th:class="${currentPage != i ? 'page-item' : 'page-item active'}">
+                <a class="page-link"
+                   th:href="@{'/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+            </li>
+            <!-- Next -->
+            <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                <a class="page-link"
+                   th:href="@{'/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+            </li>
+        </ul>
+    </nav>
+
 </div>
 </body>
+
 </html>

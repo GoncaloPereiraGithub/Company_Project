@@ -11,6 +11,10 @@ public class Role {
     private Long id;
     private String name;
 
+    // Default Constructor
+    public Role() {
+    }
+
     // Constructor
     public Role(String name) {
         this.name = name;
