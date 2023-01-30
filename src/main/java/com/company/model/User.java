@@ -18,6 +18,10 @@ public class User {
     private String email;
     private String password;
 
+    // Default Constructor
+    public User() {
+    }
+
     // Join user_id & role_id in a Table
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL) // EAGER -> load every role immediately, ex.(LAZY -> loads when needed/called)
     @JoinTable(name = "users_roles",

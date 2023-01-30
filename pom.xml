@@ -46,11 +46,17 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!--Added Spring Security Dependency(Springboot autoconfigures security, adding a login page)-->
+		<!-- Added Spring Security Dependency(Springboot autoconfigures security, adding a login page)-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+		<!-- Added dependency, for user authentication confirmation (Welcome "User"/Logged in as "User")-->
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
