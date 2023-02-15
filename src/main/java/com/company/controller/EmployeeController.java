@@ -19,9 +19,6 @@ public class EmployeeController {
     // Display list of employees
     @GetMapping("/")
     public String viewHomePage(Model model) {
-//        model.addAttribute("listEmployees", employeeService.getAllEmployees());
-//        return "index";
-
         return findPaginated(1, "firstName", "asc", model);
     }
 
@@ -32,7 +29,7 @@ public class EmployeeController {
         Employee employee = new Employee();
         // Thymeleaf will access empty employee object to bind form data
         model.addAttribute("employee", employee);
-        return "new_employee";
+        return "new_employee"; // Go to new_employee.html
     }
 
     // Take Employee from FORM(UI)
@@ -40,7 +37,8 @@ public class EmployeeController {
     public String saveEmployee(@ModelAttribute("employee") Employee employee) {
         // Save employee to Database
         employeeService.saveEmployee(employee);
-        return "redirect:/"; // Redirect to homepage(index.html)
+//        return "redirect:/"; // Default (Return to index.html)
+        return "redirect:/showNewEmployeeForm"; // Redirect to homepage(index.html)
     }
 
     // Display Form To Update
@@ -78,8 +76,6 @@ public class EmployeeController {
         model.addAttribute("sortDir", sortDir); // Sorting Direction
         model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc"); // Clicking on fields toggle
         model.addAttribute("listEmployees", listEmployees);
-
         return "index";
     }
-
 }

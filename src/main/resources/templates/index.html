@@ -19,41 +19,20 @@
         <a class="navbar-brand" href="#" th:href="@{/}">
             <img th:src="@{/logo.png}" alt="company-logo"
                  class="d-inline-block align-top" width="30" height="30"/> Employee Management System</a>
-
-<!--        &lt;!&ndash;        DROPDOWN(Logged in as: User, dropdown to logout)&ndash;&gt;-->
-<!--        <div class="btn-group">-->
-<!--            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"-->
-<!--                    data-bs-auto-close="true" aria-expanded="false">-->
-<!--                Logged in as: <span sec:authentication="principal.username">User</span></button>-->
-<!--            <ul class="dropdown-menu">-->
-<!--                <li><a class="dropdown-item" sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a></li>-->
-<!--                <li><a class="dropdown-item" href="#">Test</a></li>-->
-<!--            </ul>-->
-<!--        </div>-->
-
-<!--&lt;!&ndash;        TEST&ndash;&gt;-->
-<!--        <li class="nav-item dropdown">-->
-<!--            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"-->
-<!--               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Test-->
-<!--            </a>-->
-<!--            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">-->
-<!--                <a class="dropdown-item" th:href="@{/logout}">Logout</a>-->
-<!--            </div>-->
-<!--        </li>-->
-
-
-                <a type="button" class="btn btn-danger" sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a>
+        <!--Logout href (Defined action in SecurityConfiguration)-->
+        <a type="button" class="btn btn-danger" sec:authorize="isAuthenticated()" th:href="@{/logout}">Logout</a>
     </div>
 </nav>
 
-<!-- Page body -->
 <div class="container my-2">
     <h1>Employees List</h1>
 
     <!-- "Welcome User", with dependency(thymeleaf-extras-springsecurity5) -->
     <div class="alert alert-success">Welcome <span sec:authentication="principal.username">User</span></div>
-
+    <!-- Go to showNewEmployeeForm -->
     <a th:href="@{/showNewEmployeeForm}" class="btn btn-primary btn-sm mb-3"> Add Employee</a>
+
+    <!-- Employees Table-->
     <table border="1" class="table tale table-striped table-responsive-md">
         <thead>
         <tr> <!-- 1st Row (First Name, Last Name, Email, Actions)-->
@@ -81,8 +60,8 @@
         </tbody>
     </table>
 
-    <!-- Pagination -->
-    <nav aria-label="Page Navigation" class="display-inline">
+    <!-- Pagination (Pagination only appears if totalPages != 0)-->
+    <nav aria-label="Page Navigation" class="display-inline" th:if="${totalPages != 0}">
         <ul class="pagination justify-content-center">
             <!-- Previous -->
             <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
@@ -91,6 +70,7 @@
                 </a>
             </li>
             <!-- Show all pages -->
+            <!-- Must configure, User chooses number of page items(EmployeeController/findPaginated/pageSize -> Configure in UI a @PathVariable) -->
             <li th:each="i : ${#numbers.sequence(1, totalPages)}"
                 th:class="${currentPage != i ? 'page-item' : 'page-item active'}">
                 <a class="page-link"

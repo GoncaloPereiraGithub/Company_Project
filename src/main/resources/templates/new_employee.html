@@ -24,18 +24,21 @@
 
 <div class="container">
     <hr>
-    <h2>New Employee</h2>
 
-    <form action="#" th:action="@{/saveEmployee}" th:object="${employee}" method="POST">
-        <!-- Text insert will be first name-->
-        <input type="text" th:field="*{firstName}"
-               placeholder="First Name" class="form-control mb-4 col-12 col-md-6 col-lg-5 col-xl-4">
-        <!-- Text insert will be last name-->
-        <input type="text" th:field="*{lastName}"
-               placeholder="Last Name" class="form-control mb-4 col-12 col-md-6 col-lg-5 col-xl-4">
-        <!-- Text insert will be email-->
-        <input type="text" th:field="*{email}"
-               placeholder="Email" class="form-control mb-4 col-12 col-md-6 col-lg-5 col-xl-4">
+    <h2>New Employee</h2>
+    <form th:action="@{/saveEmployee}" th:object="${employee}" method="post">
+
+        <!-- Error message on invalid user/pw -->
+        <div th:if="${param.success}">
+            <div class="alert alert-info">Added User.</div>
+        </div>
+
+        <!-- firstName-->
+        <input type="text" th:field="*{firstName}" placeholder="First Name" required class="form-control mb-4 col-12 col-md-6 col-lg-5 col-xl-4">
+        <!-- lastName-->
+        <input type="text" th:field="*{lastName}" placeholder="Last Name" required class="form-control mb-4 col-12 col-md-6 col-lg-5 col-xl-4">
+        <!-- email-->
+        <input type="email" th:field="*{email}" placeholder="Email" required autofocus class="form-control mb-4 col-12 col-md-6 col-lg-5 col-xl-4">
         <!-- Submit button -->
         <button type="submit" class="btn btn-info col-12 col-md-4 col-lg-3 col-xl-2"> Save Employee</button>
     </form>

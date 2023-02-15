@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 // Exposes Databases operations for Employee Entity with ID (<Employee, Long(ID)>)
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+    Employee findByEmail(String employee);
 
 }

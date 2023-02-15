@@ -17,11 +17,23 @@
         <div class="col-md-8 col-lg-5 col-xl-4"> <!-- col-md-offset-3 -->
 
             <!-- Success Message -->
-            <div th:if="${param.success}"> <!-- On Success registration, display an alert -->
+            <div th:if="${param.success}"> <!-- On Success registration, display a message -->
                 <div class="alert alert-info" role="alert">
                     You've successfully registered!
                 </div>
             </div>
+            <!-- Error Message -->
+<!--            <div th:if="${email != null}"> &lt;!&ndash; On registration error, display a message &ndash;&gt;-->
+<!--                <div class="alert alert-info" role="alert">-->
+<!--                    <p th:text="${email}"> already registered!</p>-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <!-- Error message on invalid user/pw -->
+            <div th:if="${param.error}">
+                <div class="alert alert-danger">Invalid credentials.</div>
+            </div>
+
 
             <!-- Registration Form -->
             <h1 class="text-center">Registration</h1>
@@ -38,8 +50,8 @@
                 </div>
                 <div class="form-group"> <!-- Email -->
                     <label class="control-label" for="email">Email</label>
-                    <input id="email" placeholder="Enter Email" class="form-control" th:field="*{email}" required
-                           autofocus="autofocus"/>
+                    <input id="email" placeholder="Enter Email" class="form-control" type="email"
+                           th:field="*{email}" required autofocus="autofocus"/>
                 </div>
                 <div class="form-group"> <!-- Password -->
                     <label class="control-label" for="password">Password</label>
