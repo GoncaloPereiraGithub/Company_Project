@@ -1,7 +1,5 @@
 package com.company.dto;
 
-import javax.persistence.Column;
-
 public class UserRegistrationDto {
     private String firstName;
     private String lastName;

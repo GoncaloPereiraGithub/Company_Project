@@ -47,6 +47,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Employee findEmployeeByEmail(String employee) {
+        return employeeRepository.findByEmail(employee);
+    }
+
+    @Override
     public Page<Employee> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
         // Default ASC
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :

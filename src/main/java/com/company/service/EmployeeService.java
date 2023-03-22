@@ -12,4 +12,6 @@ public interface EmployeeService {
     Employee getEmployeeById(long id);
     void deleteEmployeeById(long id);
     Page<Employee> findPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
+    // Added to check if is there an employee already registered with an email
+    Employee findEmployeeByEmail(String employee);
 }

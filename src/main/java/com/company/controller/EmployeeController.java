@@ -1,6 +1,9 @@
 package com.company.controller;
 
+import com.company.dto.UserRegistrationDto;
 import com.company.model.Employee;
+import com.company.model.User;
+import com.company.repository.EmployeeRepository;
 import com.company.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +16,8 @@ import java.util.List;
 @Controller
 public class EmployeeController {
 
+    @Autowired
+    private EmployeeRepository employeeRepo;
     @Autowired // Automatic Dependency Injection
     private EmployeeService employeeService;
 
@@ -32,15 +37,6 @@ public class EmployeeController {
         return "new_employee"; // Go to new_employee.html
     }
 
-    // Take Employee from FORM(UI)
-    @PostMapping("/saveEmployee")
-    public String saveEmployee(@ModelAttribute("employee") Employee employee) {
-        // Save employee to Database
-        employeeService.saveEmployee(employee);
-//        return "redirect:/"; // Default (Return to index.html)
-        return "redirect:/showNewEmployeeForm"; // Redirect to homepage(index.html)
-    }
-
     // Display Form To Update
     @GetMapping("/showFormForUpdate/{id}")
     public String showFormForUpdate(@PathVariable(value = "id") long id, Model model) {
@@ -49,6 +45,37 @@ public class EmployeeController {
         // Set employee as a model attribute to pre-populate the form
         model.addAttribute("employee", employee);
         return "update_employee";
+    }
+
+    // Take Employee from FORM(UI)
+    @PostMapping("/saveEmployee")
+    public String saveEmployee(@ModelAttribute("employee") Employee employee) {
+
+        // If employee email is already registered in DB, return error
+        Employee employeeEntryCheck = employeeRepo.findByEmail(employee.getEmail());
+        if (employeeEntryCheck != null){
+            return "redirect:/showNewEmployeeForm?error";
+        }
+
+        // Saving employee
+        employeeService.saveEmployee(employee);
+        return "redirect:/showNewEmployeeForm?success";
+    }
+
+    @PostMapping("/updateEmployee")
+    public String updateEmployee(@ModelAttribute("employee") Employee employee) {
+
+        // Temporary save of employee id
+        long employeeId = employeeService.getEmployeeById(employee.getId()).getId();
+        // If employee email is already registered in DB, return error
+        Employee employeeEntryCheck = employeeRepo.findByEmail(employee.getEmail());
+        if (employeeEntryCheck != null){
+            return "redirect:/showFormForUpdate/" + employeeId + "?error";
+        }
+
+        // Saving employee
+        employeeService.saveEmployee(employee);
+        return "redirect:/showFormForUpdate/" + employeeId + "?success";
     }
 
     @GetMapping("/deleteEmployee/{id}")

@@ -1,6 +1,5 @@
 package com.company.service;
 
-import com.company.config.SecurityConfiguration;
 import com.company.dto.UserRegistrationDto;
 import com.company.model.Role;
 import com.company.model.User;
@@ -28,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder passwordEncoder;
 
     // Constructor Injection
+    @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         super();
         this.userRepository = userRepository;
@@ -45,6 +45,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
     @Override // From UserService Interface (extending UserDetailsService)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
@@ -55,6 +60,7 @@ public class UserServiceImpl implements UserService {
         // On existing, create UserDetails
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
+
 
     // Retrieve roles, Map roles to authorities
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){

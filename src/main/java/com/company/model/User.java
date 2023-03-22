@@ -5,7 +5,6 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
-// Setting email as "unique value for each row" -> Can only the same email once
 public class User {
 
     @Id
