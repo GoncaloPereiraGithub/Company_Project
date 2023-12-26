@@ -53,7 +53,7 @@ public class EmployeeController {
 
         // If employee email is already registered in DB, return error
         Employee employeeEntryCheck = employeeRepo.findByEmail(employee.getEmail());
-        if (employeeEntryCheck != null){
+        if (employeeEntryCheck != null) {
             return "redirect:/showNewEmployeeForm?error";
         }
 
@@ -64,23 +64,27 @@ public class EmployeeController {
 
     @PostMapping("/updateEmployee")
     public String updateEmployee(@ModelAttribute("employee") Employee employee) {
+        // Get employee from id
+        Employee employeeInfo = employeeService.getEmployeeById(employee.getId());
 
-        // Temporary save of employee id
-        long employeeId = employeeService.getEmployeeById(employee.getId()).getId();
-        // If employee email is already registered in DB, return error
+        // If new employee email already exists in DB, returns != employee obj
         Employee employeeEntryCheck = employeeRepo.findByEmail(employee.getEmail());
-        if (employeeEntryCheck != null){
-            return "redirect:/showFormForUpdate/" + employeeId + "?error";
+
+        // If employee ID is the same one in form (show no error)
+        if (employeeEntryCheck == employeeInfo) {
+            employeeService.saveEmployee(employee);
+            return "redirect:/showFormForUpdate/" + employeeInfo.getId() + "?success";
+        } else if (employeeEntryCheck != null) {
+            return "redirect:/showFormForUpdate/" + employeeInfo.getId() + "?error";
         }
 
         // Saving employee
         employeeService.saveEmployee(employee);
-        return "redirect:/showFormForUpdate/" + employeeId + "?success";
+        return "redirect:/showFormForUpdate/" + employeeInfo.getId() + "?success";
     }
 
     @GetMapping("/deleteEmployee/{id}")
     public String deleteEmployee(@PathVariable(value = "id") long id) {
-        // Call delete method in service
         this.employeeService.deleteEmployeeById(id);
         return "redirect:/";
     }
@@ -90,7 +94,7 @@ public class EmployeeController {
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDir") String sortDir,
                                 Model model) {
-        int pageSize = 5; // Choosing pageSize/Configure in UI a @PathVariable
+        int pageSize = 8; // Choosing pageSize/Configure in UI a @PathVariable
 
         Page<Employee> page = employeeService.findPaginated(pageNo, pageSize, sortField, sortDir);
         // List of Employees paginated

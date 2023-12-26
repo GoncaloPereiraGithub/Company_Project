@@ -9,6 +9,7 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
 </head>
+
 <body>
 <!-- NavBar (Completed) -->
 <nav class="navbar navbar-expand-md navbar-light">
@@ -21,9 +22,9 @@
     </div>
 </nav>
 
+
 <div class="container">
     <hr>
-
     <!-- Update Employee Form -->
     <form action="#" th:action="@{/updateEmployee}" th:object="${employee}" method="POST" class="col-md-6 col-lg-5 col-xl-4">
         <h2>Update Employee</h2>
@@ -59,6 +60,17 @@
         <div class="form-group"> <!-- Email -->
             <label class="control-label" for="email">Email</label>
             <input type="email" id="email" th:field="*{email}" class="form-control">
+        </div>
+
+        <div class="form-group"> <!-- Department -->
+            <label class="control-label" for="department">Department</label>
+            <select id="department" required th:field="*{department}" class="form-control">
+                <option value="Human Resources">Human Resources</option>
+                <option value="Finance">Finance</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Sales">Sales</option>
+                <option value="IT">IT</option>
+            </select>
         </div>
 
             <!-- Submit button -->

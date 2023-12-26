@@ -15,6 +15,8 @@ public class Employee {
     private String lastName;
     @Column
     private String email;
+    @Column
+    private String department;
 
 
     // Getter & Setters
@@ -48,5 +50,13 @@ public class Employee {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 }
